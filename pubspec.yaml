@@ -1,0 +1,32 @@
+name: mi_mall
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  get: 4.6.5
+  flutter_screenutil: ^5.7.0
+  flutter_swiper_view: ^1.1.8
+  dio: ^5.1.2
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: AlibabaIcon
+      fonts:
+        - asset: assets/fonts/ali_icon_font.ttf
+

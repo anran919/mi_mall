@@ -8,8 +8,8 @@ import 'package:mi_mall/app/modules/user/views/user_view.dart';
 import 'package:flutter/material.dart';
 
 class TabsController extends GetxController {
-  final currentIndex = 0.obs;
-  PageController pageController = PageController(initialPage: 0);
+  final currentIndex = 1.obs;
+  PageController pageController = PageController(initialPage: 1);
   final List<Widget> pages = const [
     HomeView(),
     CategoryView(),

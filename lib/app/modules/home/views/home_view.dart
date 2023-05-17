@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
-
 import 'package:get/get.dart';
+import 'package:mi_mall/app/models/product_model_model.dart';
 import 'package:mi_mall/app/services/keep_alive.dart';
 import 'package:mi_mall/app/services/screen_adapter.dart';
 import 'package:mi_mall/fonts/ali.dart';
-
 import '../controllers/home_controller.dart';
+import '../widget/recommend.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -113,15 +111,17 @@ class HomeView extends GetView<HomeController> {
         child: ListView(
           children: [
             _focusSwiper(),
-            _indemnifyView(),
+            // _indemnifyView(),
             _hotSwiper(),
             _bannerView(),
             _hotGoods(),
+            const RecommendView()
           ],
         ));
   }
 
-  Widget _hotGoodsItem() {
+  Widget _hotGoodsItem(ProductItem item) {
+    var url = "https://xiaomi.itying.com/${item.pic}";
     return Expanded(
       flex: 1,
       child: Padding(
@@ -138,16 +138,16 @@ class HomeView extends GetView<HomeController> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Pad 6 系列",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        "${item.title}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "低配立省100元",
+                        "${item.subTitle}",
                         style: TextStyle(fontSize: ScreenAdapter.fontSize(30)),
                       ),
                       Text(
-                        "¥1899起",
+                        "${item.price}",
                         style: TextStyle(
                             fontSize: ScreenAdapter.fontSize(32),
                             fontWeight: FontWeight.w400,
@@ -159,10 +159,9 @@ class HomeView extends GetView<HomeController> {
                   flex: 1,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
+                      image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                              "https://www.itying.com/images/kaoxiang.png")),
+                          image: NetworkImage(url.replaceAll('\\', '/'))),
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(ScreenAdapter.width(10)),
                           bottomRight:
@@ -177,7 +176,7 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _hotGoods() {
-    return Padding(
+    return Obx(() => Padding(
       padding: EdgeInsets.only(
           left: ScreenAdapter.height(30), right: ScreenAdapter.height(20)),
       child: Column(
@@ -198,6 +197,9 @@ class HomeView extends GetView<HomeController> {
               ),
             ],
           ),
+          SizedBox(
+            height: ScreenAdapter.height(30),
+          ),
           Row(
             children: [
               Expanded(
@@ -205,60 +207,27 @@ class HomeView extends GetView<HomeController> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius:
-                            BorderRadius.circular(ScreenAdapter.width(10)),
+                        BorderRadius.circular(ScreenAdapter.width(10)),
                         color: Colors.grey[200]),
-                    height: ScreenAdapter.height(738),
-                    child: Column(
-                      children: [
-                        Expanded(
-                            flex: 1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "小米全面屏电视EA55",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: ScreenAdapter.fontSize(46)),
-                                ),
-                                Text(
-                                  "至高优惠200元",
-                                  style: TextStyle(
-                                      fontSize: ScreenAdapter.fontSize(30),
-                                      fontWeight: FontWeight.w200),
-                                ),
-                                Text(
-                                  "券后价 ¥1399",
-                                  style: TextStyle(
-                                      fontSize: ScreenAdapter.fontSize(34),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )),
-                        Expanded(
-                          flex: 2,
-                          child: Swiper(
-                            itemCount: controller.swiperItems.length,
-                            itemBuilder: (context, index) {
-                              String pic =
-                                  "https://xiaomi.itying.com/${controller.swiperItems[index]['pic']}";
-                              return Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                          pic.replaceAll("\\", '/'),
-                                        ))),
-                              );
-                            },
-                            pagination: const SwiperPagination(
-                                builder: SwiperPagination.rect),
-                            autoplay: true,
-                          ),
-                        )
-                      ],
+                    height: ScreenAdapter.height(730),
+                    child: Swiper(
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    "https://www.itying.com/images/b_focus0${index + 1}.png",
+                                  ))),
+                        );
+                      },
+                      pagination: const SwiperPagination(
+                          builder: SwiperPagination.rect),
+                      autoplay: true,
                     ),
                   )),
               Expanded(
@@ -266,18 +235,15 @@ class HomeView extends GetView<HomeController> {
                   child: SizedBox(
                     height: ScreenAdapter.height(738),
                     child: Column(
-                      children: [
-                        _hotGoodsItem(),
-                        _hotGoodsItem(),
-                        _hotGoodsItem(),
-                      ],
-                    ),
+                        children: controller.hotList
+                            .map((product) => _hotGoodsItem(product))
+                            .toList()),
                   ))
             ],
           )
         ],
       ),
-    );
+    ));
   }
 
   Widget _bannerView() {
@@ -355,7 +321,7 @@ class HomeView extends GetView<HomeController> {
               Icon(
                 Icons.check_circle_outline,
                 color: Colors.grey[400],
-                weight: 300,
+                size: 20 ,
               ),
               Text(
                 '官方商城',
@@ -368,7 +334,7 @@ class HomeView extends GetView<HomeController> {
               Icon(
                 Icons.check_circle_outline,
                 color: Colors.grey[400],
-                weight: 300,
+                size: 20 ,
               ),
               Text(
                 '后顾无忧',
@@ -381,7 +347,7 @@ class HomeView extends GetView<HomeController> {
               Icon(
                 Icons.check_circle_outline,
                 color: Colors.grey[400],
-                weight: 300,
+                size: 20 ,
               ),
               Text(
                 '资质证照',
@@ -395,7 +361,7 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _focusSwiper() {
-    return SizedBox(
+    return Obx(() => SizedBox(
       width: ScreenAdapter.width(1080),
       height: ScreenAdapter.height(680),
       child: Swiper(
@@ -412,6 +378,6 @@ class HomeView extends GetView<HomeController> {
         pagination: const SwiperPagination(builder: SwiperPagination.rect),
         autoplay: true,
       ),
-    );
+    ));
   }
 }

@@ -17,7 +17,7 @@ void main() {
     builder: (context, child) {
       return GetMaterialApp(
         color: Colors.orange,
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         title: "MI MALL",
         theme: ThemeData(primaryColor: Colors.orange),
         initialRoute: AppPages.INITIAL,

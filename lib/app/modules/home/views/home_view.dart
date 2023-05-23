@@ -98,7 +98,6 @@ class HomeView extends GetView<HomeController> {
                   ? Colors.orange
                   : const Color(0x1205000A),
               elevation: 0,
-              centerTitle: true,
             )));
   }
 

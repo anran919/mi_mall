@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mi_mall/app/services/keep_alive.dart';
@@ -15,7 +16,11 @@ class CategoryView extends GetView<CategoryController> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: () {}, icon:  Icon(Icons.messenger_outline,color: Colors.grey[500],)),
+              onPressed: () {},
+              icon: Icon(
+                Icons.messenger_outline,
+                color: Colors.grey[500],
+              )),
         ],
         title: Container(
           width: ScreenAdapter.width(900),
@@ -49,12 +54,11 @@ class CategoryView extends GetView<CategoryController> {
             ],
           ),
         ),
-        centerTitle: true,
       ),
       body: Center(
         child: KeepAliveWrapper(
           child: ListView(
-            children: const [
+            children: const  [
               ListTile(
                 title: Text('title111'),
               ),

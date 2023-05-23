@@ -13,7 +13,7 @@ class TabsView extends GetView<TabsController> {
           body: PageView(
             controller: controller.pageController,
             children: controller.pages,
-            onPageChanged: (index){
+            onPageChanged: (index) {
               controller.setCurrentIndex(index);
             },
           ),
@@ -39,7 +39,12 @@ class TabsView extends GetView<TabsController> {
               BottomNavigationBarItem(
                   label: "购物车", icon: Icon(Icons.shopping_cart_outlined)),
               BottomNavigationBarItem(
-                  label: "我的", icon: Icon(Icons.person_outline)),
+                label: "我的",
+                icon: Badge(
+                  label: Text('12'),
+                  child: Icon(Icons.person_outline),
+                ),
+              ),
             ],
           ),
         ));

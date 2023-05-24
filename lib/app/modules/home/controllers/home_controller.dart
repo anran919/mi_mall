@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:mi_mall/app/models/category_model.dart';
 import 'package:mi_mall/app/models/product_model_model.dart';
+import 'package:mi_mall/app/services/http_client.dart';
 
 class HomeController extends GetxController {
   final ScrollController scrollController = ScrollController();
@@ -11,7 +14,7 @@ class HomeController extends GetxController {
   late RxList<CategoryItems> categoryItems = <CategoryItems>[].obs;
   late RxList<ProductItem> hotList = <ProductItem>[].obs;
   late RxList<ProductItem> bestList = <ProductItem>[].obs;
-
+  HttpClient client = HttpClient();
   @override
   void onInit() {
     super.onInit();
@@ -20,7 +23,6 @@ class HomeController extends GetxController {
   }
 
   initData() {
-    print('initData----');
     getFocusItems();
     getCategoryItems();
     getHotList();
@@ -43,30 +45,35 @@ class HomeController extends GetxController {
 
   //热销臻选
   getHotList() async {
-    var response = await Dio()
-        .get("https://xiaomi.itying.com/api/plist?is_hot=1&pageSize=3");
-    var product = ProductModel.fromJson(response.data);
-    hotList.value = product.result!;
-    update();
+    var response = await client.get('/api/plist?is_hot=1&pageSize=3');
+    if (response != null) {
+      var product = ProductModel.fromJson(response.data);
+      hotList.value = product.result!;
+      update();
+    }
   }
 
   getFocusItems() async {
-    var response = await Dio().get("https://xiaomi.itying.com/api/focus");
+    var response = await client.get('/api/focus');
     swiperItems.value = response.data['result'];
     update();
   }
 
   getCategoryItems() async {
-    var response = await Dio().get('https://xiaomi.itying.com/api/bestCate');
-    var category = CategoryModel.fromJson(response.data);
-    categoryItems.value = category.result!;
-    update();
+    var response = await client.get('/api/bestCate');
+    if (response != null) {
+      var category = CategoryModel.fromJson(response.data);
+      categoryItems.value = category.result!;
+      update();
+    }
   }
-  getBestList() async{
-    var response = await Dio()
-        .get("https://xiaomi.itying.com/api/plist?is_best=1");
-    var product = ProductModel.fromJson(response.data);
-    bestList.value = product.result!;
-    update();
+
+  getBestList() async {
+    var response = await client.get('/api/plist?is_best=1');
+    if (response != null) {
+      var product = ProductModel.fromJson(response.data);
+      bestList.value = product.result!;
+      update();
+    }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mi_mall/app/services/http_client.dart';
 
+import '../../../models/product_model_model.dart';
 import '../../../services/screen_adapter.dart';
 import '../controllers/product_list_controller.dart';
 
@@ -14,9 +16,10 @@ class ProductListView extends GetView<ProductListController> {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: EdgeInsets.only(top: headerHeight),
-      child: ListView.builder(
-          itemCount: 20,
+      child: Obx(() => controller.productList.isNotEmpty? ListView.builder(
+          itemCount: controller.productList.length,
           itemBuilder: (context, index) {
+            ProductItem item = controller.productList[index];
             return Container(
               margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               decoration: const BoxDecoration(
@@ -36,122 +39,127 @@ class ProductListView extends GetView<ProductListController> {
                       flex: 2,
                       child: Container(
                         padding: const EdgeInsets.all(20),
-                        child: Image.asset('assets/images/sx1.webp'),
+                        child: Image.network(
+                          HttpClient.replacePath(item.sPic),
+                          fit: BoxFit.cover,
+                        ),
                       )),
                   Expanded(
                       flex: 3,
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'Redmi 10A',
-                              style: textTheme.bodyLarge,
-                              textAlign: TextAlign.left,
-                            ),
-                            SizedBox(
-                              height: ScreenAdapter.height(10),
-                            ),
-                            Text(
-                              '6.53大尺寸屏幕 | 1300万超清主摄 | 双卡双5G | 5300万毫安大电池 | 33W有线快充',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: textTheme.bodySmall,
-                            ),
-                            SizedBox(
-                              height: ScreenAdapter.height(10),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "CPU",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                        Text(
-                                          "骁龙870",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "CPU",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                        Text(
-                                          "骁龙870",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "CPU",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                        Text(
-                                          "骁龙870",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: ScreenAdapter.height(10),
-                            ),
-                            Text(
-                              '¥1199',
-                              style: textTheme.bodyLarge,
-                            ),
-                            SizedBox(
-                              height: ScreenAdapter.height(10),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '72333条评价',
-                                  style: textTheme.bodySmall,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  '99.9%满意',
-                                  style: textTheme.bodySmall,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            item.title!,
+                            style: textTheme.bodyLarge,
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: ScreenAdapter.height(10),
+                          ),
+                          Text(
+                            item.subTitle!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme.bodySmall,
+                          ),
+                          SizedBox(
+                            height: ScreenAdapter.height(10),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "CPU",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  ),
+                                  Text(
+                                    "骁龙870",
+                                    style:
+                                    Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 40,
+                                width: 2,
+                                color: Colors.white24,
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "高清拍摄",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  ),
+                                  Text(
+                                    "4800万像素",
+                                    style:
+                                    Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 40,
+                                width: 2,
+                                color: Colors.white24,
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "超大屏",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  ),
+                                  Text(
+                                    "6.7寸",
+                                    style:
+                                    Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: ScreenAdapter.height(10),
+                          ),
+                          Text(
+                            "¥${item.price}",
+                            style: textTheme.bodyLarge,
+                          ),
+                          SizedBox(
+                            height: ScreenAdapter.height(10),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '72333条评价',
+                                style: textTheme.bodySmall,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '99.9%满意',
+                                style: textTheme.bodySmall,
+                              ),
+                            ],
+                          )
+                        ],
                       ))
                 ],
               ),
             );
-          }),
+          }): const Center(
+        child: Text('暂无数据!'),
+      )),
     );
   }
 
@@ -297,6 +305,7 @@ class ProductListView extends GetView<ProductListController> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
+        foregroundColor: Theme.of(context).primaryColor,
         elevation: 0,
       ),
       body: Stack(

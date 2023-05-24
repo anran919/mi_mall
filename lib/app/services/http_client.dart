@@ -7,8 +7,8 @@ class HttpClient {
 
   HttpClient() {
     dio.options.baseUrl = domain;
-    dio.options.connectTimeout = const Duration(milliseconds: 5000);
-    dio.options.receiveTimeout = const Duration(milliseconds: 5000);
+    dio.options.connectTimeout = const Duration(milliseconds: 10000);
+    dio.options.receiveTimeout = const Duration(milliseconds: 10000);
   }
 
   Future get(String url) async {
@@ -22,6 +22,6 @@ class HttpClient {
   }
 
   static replacePath(path) {
-    return domain + path.replaceAll("\\", "/");
+    return '$domain/${path.replaceAll("\\", "/")}' ;
   }
 }

@@ -55,10 +55,7 @@ class CategoryView extends GetView<CategoryController> {
         ),
       ),
       body: Row(
-        children: [
-          _leftList(),
-          _rightGrid()
-        ],
+        children: [_leftList(), _rightGrid()],
       ),
     );
   }
@@ -119,23 +116,32 @@ class CategoryView extends GetView<CategoryController> {
                 crossAxisCount: 3),
             itemCount: controller.rightCategoryList.length,
             itemBuilder: (context, index) {
+              var item = controller.rightCategoryList[index];
               String picUrl =
-                  "https://xiaomi.itying.com/${controller.rightCategoryList[index].pic}";
-              return Column(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    child: Image.network(picUrl.replaceAll("\\", "/"),
-                        fit: BoxFit.fitHeight),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.fromLTRB(0, ScreenAdapter.height(10), 0, 0),
-                    child: Text("手机",
-                        style: TextStyle(fontSize: ScreenAdapter.fontSize(34))),
-                  )
-                ],
+                  "https://xiaomi.itying.com/${item.pic}";
+              return InkWell(
+                onTap: () {
+                  Get.toNamed('/product-list', arguments: {
+                    'cid': item.sId
+                  });
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      child: Image.network(picUrl.replaceAll("\\", "/"),
+                          fit: BoxFit.fitHeight),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0, ScreenAdapter.height(10), 0, 0),
+                      child: Text("手机",
+                          style:
+                              TextStyle(fontSize: ScreenAdapter.fontSize(34))),
+                    )
+                  ],
+                ),
               );
             })));
   }

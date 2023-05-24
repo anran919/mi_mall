@@ -3,7 +3,7 @@ class CategoryModel {
 
   CategoryModel({this.result});
 
-  CategoryModel .fromJson(Map<String, dynamic> json) {
+  CategoryModel.fromJson(Map<String, dynamic> json) {
     if (json['result'] != null) {
       result = <CategoryItems>[];
       json['result'].forEach((v) {

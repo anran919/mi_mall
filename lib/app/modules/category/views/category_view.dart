@@ -26,31 +26,34 @@ class CategoryView extends GetView<CategoryController> {
           height: ScreenAdapter.height(80),
           decoration: BoxDecoration(
               color: Colors.grey[200], borderRadius: BorderRadius.circular(15)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: ScreenAdapter.width(15)),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.grey[500],
+          child: InkWell(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenAdapter.width(15)),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.grey[500],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: ScreenAdapter.width(20)),
-                    child: Text(
-                      "搜索商品",
-                      style: TextStyle(
-                          fontSize: ScreenAdapter.fontSize(35),
-                          color: Colors.grey[500]),
-                    ),
-                  )
-                ],
-              ),
-            ],
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenAdapter.width(20)),
+                      child: Text(
+                        "搜索商品",
+                        style: TextStyle(
+                            fontSize: ScreenAdapter.fontSize(35),
+                            color: Colors.grey[500]),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            onTap:()=> Get.toNamed('/search'),
           ),
         ),
       ),

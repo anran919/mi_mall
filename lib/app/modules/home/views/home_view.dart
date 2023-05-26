@@ -62,27 +62,30 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: ScreenAdapter.width(15)),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.grey[300],
+                    InkWell(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: ScreenAdapter.width(15)),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey[300],
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: ScreenAdapter.width(20)),
-                          child: Text(
-                            "Xbox 360",
-                            style: TextStyle(
-                                fontSize: ScreenAdapter.fontSize(35),
-                                color: Colors.grey[300]),
-                          ),
-                        )
-                      ],
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: ScreenAdapter.width(20)),
+                            child: Text(
+                              "Xbox 360",
+                              style: TextStyle(
+                                  fontSize: ScreenAdapter.fontSize(35),
+                                  color: Colors.grey[300]),
+                            ),
+                          )
+                        ],
+                      ),
+                      onTap:()=> Get.toNamed('/search'),
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: ScreenAdapter.width(30)),
@@ -176,73 +179,74 @@ class HomeView extends GetView<HomeController> {
 
   Widget _hotGoods() {
     return Obx(() => Padding(
-      padding: EdgeInsets.only(
-          left: ScreenAdapter.height(30), right: ScreenAdapter.height(20)),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: EdgeInsets.only(
+              left: ScreenAdapter.height(30), right: ScreenAdapter.height(20)),
+          child: Column(
             children: [
-              Text(
-                "热销甄选",
-                style: TextStyle(
-                    fontSize: ScreenAdapter.fontSize(46),
-                    fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "热销甄选",
+                    style: TextStyle(
+                        fontSize: ScreenAdapter.fontSize(46),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "更多手机推荐 >",
+                    style: TextStyle(
+                        fontSize: ScreenAdapter.fontSize(36),
+                        color: Colors.grey),
+                  ),
+                ],
               ),
-              Text(
-                "更多手机推荐 >",
-                style: TextStyle(
-                    fontSize: ScreenAdapter.fontSize(36), color: Colors.grey),
+              SizedBox(
+                height: ScreenAdapter.height(30),
               ),
+              Row(
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(ScreenAdapter.width(10)),
+                            color: Colors.grey[200]),
+                        height: ScreenAdapter.height(730),
+                        child: Swiper(
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        "https://www.itying.com/images/b_focus0${index + 1}.png",
+                                      ))),
+                            );
+                          },
+                          pagination: const SwiperPagination(
+                              builder: SwiperPagination.rect),
+                          autoplay: true,
+                        ),
+                      )),
+                  Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: ScreenAdapter.height(738),
+                        child: Column(
+                            children: controller.hotList
+                                .map((product) => _hotGoodsItem(product))
+                                .toList()),
+                      ))
+                ],
+              )
             ],
           ),
-          SizedBox(
-            height: ScreenAdapter.height(30),
-          ),
-          Row(
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(ScreenAdapter.width(10)),
-                        color: Colors.grey[200]),
-                    height: ScreenAdapter.height(730),
-                    child: Swiper(
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    "https://www.itying.com/images/b_focus0${index + 1}.png",
-                                  ))),
-                        );
-                      },
-                      pagination: const SwiperPagination(
-                          builder: SwiperPagination.rect),
-                      autoplay: true,
-                    ),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    height: ScreenAdapter.height(738),
-                    child: Column(
-                        children: controller.hotList
-                            .map((product) => _hotGoodsItem(product))
-                            .toList()),
-                  ))
-            ],
-          )
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget _bannerView() {
@@ -320,7 +324,7 @@ class HomeView extends GetView<HomeController> {
               Icon(
                 Icons.check_circle_outline,
                 color: Colors.grey[400],
-                size: 20 ,
+                size: 20,
               ),
               Text(
                 '官方商城',
@@ -333,7 +337,7 @@ class HomeView extends GetView<HomeController> {
               Icon(
                 Icons.check_circle_outline,
                 color: Colors.grey[400],
-                size: 20 ,
+                size: 20,
               ),
               Text(
                 '后顾无忧',
@@ -346,7 +350,7 @@ class HomeView extends GetView<HomeController> {
               Icon(
                 Icons.check_circle_outline,
                 color: Colors.grey[400],
-                size: 20 ,
+                size: 20,
               ),
               Text(
                 '资质证照',
@@ -361,22 +365,22 @@ class HomeView extends GetView<HomeController> {
 
   Widget _focusSwiper() {
     return Obx(() => SizedBox(
-      width: ScreenAdapter.width(1080),
-      height: ScreenAdapter.height(680),
-      child: Swiper(
-        itemCount: controller.swiperItems.length,
-        itemBuilder: (context, index) {
-          String pic =
-              "https://xiaomi.itying.com/${controller.swiperItems[index]['pic']}";
-          // return Image.asset(controller.swiperItems[index],fit: BoxFit.cover,);
-          return Image.network(
-            pic.replaceAll("\\", '/'),
-            fit: BoxFit.cover,
-          );
-        },
-        pagination: const SwiperPagination(builder: SwiperPagination.rect),
-        autoplay: true,
-      ),
-    ));
+          width: ScreenAdapter.width(1080),
+          height: ScreenAdapter.height(680),
+          child: Swiper(
+            itemCount: controller.swiperItems.length,
+            itemBuilder: (context, index) {
+              String pic =
+                  "https://xiaomi.itying.com/${controller.swiperItems[index]['pic']}";
+              // return Image.asset(controller.swiperItems[index],fit: BoxFit.cover,);
+              return Image.network(
+                pic.replaceAll("\\", '/'),
+                fit: BoxFit.cover,
+              );
+            },
+            pagination: const SwiperPagination(builder: SwiperPagination.rect),
+            autoplay: true,
+          ),
+        ));
   }
 }

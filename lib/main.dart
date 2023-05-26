@@ -21,6 +21,7 @@ void main() {
         title: "MI MALL",
         theme: ThemeData(primaryColor: Colors.orange),
         initialRoute: AppPages.INITIAL,
+        defaultTransition: Transition.rightToLeft,
         getPages: AppPages.routes,
       );
     },

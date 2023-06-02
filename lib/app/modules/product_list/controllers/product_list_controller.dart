@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:mi_mall/app/models/product_model_model.dart';
 import 'package:mi_mall/app/services/http_client.dart';
 
-class ProductListController extends GetxController with GetSingleTickerProviderStateMixin {
+class ProductListController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final HttpClient client = HttpClient();
   int page = 1;
   int pageSize = 8;
@@ -12,7 +13,7 @@ class ProductListController extends GetxController with GetSingleTickerProviderS
   RxInt listCount = 20.obs;
   RxList<ProductItem> productList = <ProductItem>[].obs;
   ScrollController scrollController = ScrollController();
-  late AnimationController animationController ;
+  late AnimationController animationController;
   RxBool hasData = true.obs;
   RxInt selectedFilerIndex = 0.obs;
   RxInt filterSort = 1.obs;
@@ -69,10 +70,13 @@ class ProductListController extends GetxController with GetSingleTickerProviderS
     },
   ];
 
+  String searchUrl = '';
+
   @override
   void onInit() {
     super.onInit();
-    animationController = AnimationController(vsync: this,duration: const Duration(milliseconds: 500));
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     _getProductList();
     _addScrollController();
   }
@@ -126,10 +130,17 @@ class ProductListController extends GetxController with GetSingleTickerProviderS
   void _getProductList() async {
     if (flag && hasData.value) {
       flag = false;
-      String url =
-          "/api/plist?cid=${Get.arguments["cid"]}&page=$page&pageSize=$pageSize&sort=$_sort";
-      var response = await client.get(url);
-      debugPrint("url : $url ");
+      String? keywords = Get.arguments['keywords'];
+      String? cid = Get.arguments['cid'];
+      if (cid != null) {
+        searchUrl =
+            "/api/plist?cid=$cid&page=$page&pageSize=$pageSize&sort=$_sort";
+      } else {
+        searchUrl =
+            "/api/plist?search=$keywords&page=$page&pageSize=$pageSize&sort=$_sort";
+      }
+      var response = await client.get(searchUrl);
+      debugPrint("url : $searchUrl ");
       if (response != null) {
         var product = ProductModel.fromJson(response.data);
         var result = product.result!;

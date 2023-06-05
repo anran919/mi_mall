@@ -90,6 +90,7 @@ class LoginView extends GetView<LoginController> {
                               Container(
                                 padding: const EdgeInsets.all(10),
                                 child: const TextField(
+                                  obscureText: true,
                                   decoration: InputDecoration(
                                       hintText: "Password",
                                       hintStyle: TextStyle(color: Colors.grey),

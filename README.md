@@ -1,19 +1,20 @@
 # mi_mall
 
-A new Flutter project.
+## screenshot
 
-## Getting Started
+![Screenshot1](./assets/shot/Screenshot1.png)
 
-This project is a starting point for a Flutter application.
+![Screenshot2](./assets/shot/Screenshot2.png)
 
-A few resources to get you started if this is your first Flutter project:
+![Screenshot3](./assets/shot/Screenshot3.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Screenshot4](./assets/shot/Screenshot4.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot5](./assets/shot/Screenshot5.png)
+
+![Screenshot6](./assets/shot/Screenshot6.png)
+
+![Screenshot7](./assets/shot/Screenshot7.png)
 
 ## 记录
 ### getx 生成module

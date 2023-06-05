@@ -2,11 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mi_mall/app/routes/app_pages.dart';
+import 'package:mi_mall/app/services/search_service.dart';
 import '../../../services/screen_adapter.dart';
 import '../controllers/search_controller.dart';
 
 class SearchView extends GetView<SearchController> {
   const SearchView({Key? key}) : super(key: key);
+
+  void search() {
+    String value = controller.keywords.value;
+    if (value.isNotEmpty) {
+      SearchService.setHistory(value);
+    }
+    Get.offAndToNamed(Routes.PRODUCT_LIST, arguments: {'keywords': value});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +30,18 @@ class SearchView extends GetView<SearchController> {
             borderRadius: BorderRadius.circular(30),
           ),
           child: CupertinoTextField(
+            controller: controller.searchController,
             style: TextStyle(fontSize: ScreenAdapter.fontSize(36)),
             autofocus: true,
             prefix: const Padding(
               padding: EdgeInsets.only(left: 8, right: 5),
               child: Icon(Icons.search),
             ),
+            onChanged: (value) {},
             placeholder: "手机",
             onSubmitted: (value) {
-              Get.offAndToNamed(Routes.PRODUCT_LIST, arguments: {'keywords': value});
+              controller.keywords.value = value;
+              search();
             },
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
           ),
@@ -39,7 +51,9 @@ class SearchView extends GetView<SearchController> {
         foregroundColor: Theme.of(context).primaryColor,
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                search();
+              },
               child: Text(
                 "搜索",
                 style: TextStyle(fontSize: ScreenAdapter.fontSize(38)),
@@ -52,23 +66,47 @@ class SearchView extends GetView<SearchController> {
             left: ScreenAdapter.width(20), right: ScreenAdapter.width(20)),
         child: ListView(
           children: [
-            const ListTile(
-              title: Text('搜索历史'),
-              trailing: Icon(Icons.delete_outline),
+            ListTile(
+              title: const Text('搜索历史'),
+              trailing: InkWell(
+                onTap: () {
+                  controller.clearHistory();
+                },
+                child: const Icon(Icons.delete_outline),
+              ),
             ),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: controller.historyList
-                  .map((element) => Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(element),
-                      ))
-                  .toList(),
-            ),
+            Obx(() => Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: controller.historyList
+                      .map((element) => Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: InkWell(
+                              onLongPress: () {
+                                Get.defaultDialog(
+                                    title: "提示信息!",
+                                    middleText: "确定要删除吗?",
+                                    confirm: ElevatedButton(
+                                        onPressed: () {
+                                          controller.removeByName(element);
+                                          Get.back();
+                                        },
+                                        child: const Text('确定')),
+                                    cancel: ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Colors.grey)
+                                      ),
+                                        onPressed: () => Get.back(),
+                                        child: const Text('取消')));
+                              },
+                              child: Text(element),
+                            ),
+                          ))
+                      .toList(),
+                )),
             const ListTile(
               title: Text('猜你想搜'),
               trailing: Icon(Icons.refresh),

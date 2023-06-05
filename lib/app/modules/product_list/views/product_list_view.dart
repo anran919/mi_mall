@@ -44,10 +44,7 @@ class ProductListView extends GetView<ProductListController>{
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Colors.white, Colors.white70]),
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Row(
@@ -285,14 +282,13 @@ class ProductListView extends GetView<ProductListController>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromRGBO(158, 158, 158, 0.21568627450980393),
-      backgroundColor: Colors.white70,
+      backgroundColor: const Color.fromRGBO(240, 245, 245, 1),
       appBar: AppBar(
         title: Container(
           width: ScreenAdapter.width(900),
           height: ScreenAdapter.height(96),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(246, 246, 246, 1),
+            color: const Color.fromRGBO(230, 235, 235, 1.0),
             borderRadius: BorderRadius.circular(30),
           ),
           child: Row(
